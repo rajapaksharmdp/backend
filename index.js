@@ -9,12 +9,18 @@ const path = require('path');
 
 // Connect to MongoDB
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/virtualbookstoredb')
+// mongoose.connect('mongodb://127.0.0.1:27017/virtualbookstoredb')
+const atlasConnectionString = 'mongodb+srv://dulanga:Y8MU1GSO0INUbXDB@cluster0.7bwj7mi.mongodb.net/virtualbookstoredb?retryWrites=true&w=majority';
+
+mongoose.connect(atlasConnectionString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => {
-    console.log('Connected to Mongo! Database name:', mongoose.connections[0].name);
+    console.log('Connected to MongoDB Atlas!');
   })
   .catch((err) => {
-    console.error('Error connecting to MongoDB', err.reason);
+    console.error('Error connecting to MongoDB Atlas', err.reason);
   });
 
 const app = express();
@@ -178,6 +184,7 @@ app.post('/api/users', async (req, res) => {
     return res.status(400).json({ error: 'All required fields must be provided' });
   }
 
+
   try {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -186,7 +193,7 @@ app.post('/api/users', async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      role,
+      role: "user",
       name
     });
 
@@ -279,8 +286,6 @@ app.post('/api/login', async (req, res) => {
         useremail: user.email,
         role:user.role,
         userfullname:user.name
-        // Add other user details as needed
-        // For example: name, email, etc.
       };
       res.status(200).json({ message: 'Login successful',user: userResponse });
     } else {
