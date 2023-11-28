@@ -9,7 +9,7 @@ const path = require('path');
 
 // Connect to MongoDB
 // Connect to MongoDB
-// mongoose.connect('mongodb://127.0.0.1:27017/virtualbookstoredb')
+// const atlasConnectionString = 'mongodb://127.0.0.1:27017/virtualbookstoredb'
 const atlasConnectionString = 'mongodb+srv://dulanga:Y8MU1GSO0INUbXDB@cluster0.7bwj7mi.mongodb.net/virtualbookstoredb?retryWrites=true&w=majority';
 
 mongoose.connect(atlasConnectionString, {
@@ -26,6 +26,18 @@ mongoose.connect(atlasConnectionString, {
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+
+
+const allowedOrigins = ['http://localhost:4200']; // Add your frontend URL
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 
 const bookSchema = new mongoose.Schema({
   bookid: { type: String, required: true },
@@ -121,7 +133,7 @@ app.get('/api/getbooks', (req, res) => {
 
 // Get a single book by bookid (GET)
 app.get('/api/books/:bookid', (req, res) => {
-  const bookid = req.params.bookid;
+  let bookid = req.params.bookid;
   Book.findOne({ bookid })
     .then((book) => {
       if (!book) {
@@ -136,8 +148,8 @@ app.get('/api/books/:bookid', (req, res) => {
 
 // Update a book by bookid (PUT)
 app.put('/api/books/:bookid', (req, res) => {
-  const bookid = req.params.bookid;
-  const updateData = req.body;
+  let bookid = req.params.bookid;
+  let updateData = req.body;
   Book.findOneAndUpdate({ bookid }, updateData, { new: true })
     .then((book) => {
       if (!book) {
