@@ -66,7 +66,7 @@ const Book = mongoose.model('Book', bookSchema);
 // Multer setup for handling file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'D:/DulangaRajapaksha/MSc/webDev/project/New folder/front/src/assets/images/'); // Set the destination folder for uploaded files
+    cb(null, 'public/assets/images/'); // Set the destination folder for uploaded files
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
