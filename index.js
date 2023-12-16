@@ -27,6 +27,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 const allowedOrigins = ['http://localhost:4200','https://virtualbookstore.azurewebsites.net/']; // Add your frontend URL
 app.use(cors({
