@@ -357,7 +357,7 @@ app.get('/api/getbooks/:category', (req, res) => {
 //---------------------------------------------------------------------------------------------------
 
 // Define a port for the server
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 
 // Start the server
 const server = app.listen(port, () => {
