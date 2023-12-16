@@ -31,7 +31,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-const allowedOrigins = ['http://localhost:4200','https://virtualbookstore.azurewebsites.net/']; // Add your frontend URL
+const allowedOrigins = ['http://localhost:4200','https://virtualbookstore.azurewebsites.net/']; // Add frontend URL
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
