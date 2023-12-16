@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 
-const allowedOrigins = ['http://localhost:4200']; // Add your frontend URL
+const allowedOrigins = ['http://localhost:4200','https://virtualbookstore.azurewebsites.net/']; // Add your frontend URL
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
